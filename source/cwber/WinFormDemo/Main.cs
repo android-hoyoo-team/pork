@@ -44,9 +44,6 @@ namespace WinFormDemo
             //Target:0, InAnt:131, Scantime:20, FastFlag:1
             InitializeComponent();
             loadAppSettings();
-
-            //Console.WriteLine(inAnt);
-            //Console.WriteLine();
             //appSettings["fComAdr"] = 0xff;
             ////appSettings["qValue"] = 132;
             //appSettings["qValue"] = 0x82;
@@ -448,8 +445,7 @@ namespace WinFormDemo
                 byte[] maskData = new byte[100];
                 byte maskFlag = appSettings.GetByte("maskFlag");
                 byte readMem = appSettings.GetByte("readMem");
-                //byte[] readAdr = IntegerHelper.intToBytes(appSettings.GetInt("readAdr"),2);
-                byte[] readAdr = new byte[] { 0, 2 };
+                byte[] readAdr = IntegerHelper.intToBytes(appSettings.GetInt("readAdr"),2);
                 byte readLen = appSettings.GetByte("readLen");
                 byte[] psd = IntegerHelper.intToBytes(appSettings.GetInt("psd"), 4);
                 byte target = appSettings.GetByte("target");
@@ -638,13 +634,25 @@ namespace WinFormDemo
                         if (infos != null && infos.Length > 0)
                         {
                             int gnum = Convert.ToInt32(infos[0], 16);
+                            string ant =null;
                             if (gnum < 0x80)//epc
                             {
-
+                                epc = infos[1];
+                                ant = infos[3];
                             }
                             else//tid
                             {
-
+                                tid = infos[1];
+                                ant = infos[3];
+                                if (epc != null && tid != null && ant != null) {
+                                    TagInfo tag = new TagInfo();
+                                    tag.Epc = epc;
+                                    tag.Ant = ant;
+                                    tag.TId = tid;
+                                    if (!CheckTag(tag)) { 
+                                        
+                                    }
+                                }
                             }
                         }
                     }

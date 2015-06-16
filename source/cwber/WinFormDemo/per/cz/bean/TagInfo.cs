@@ -6,7 +6,7 @@ using System.Text;
 
 namespace WinFormDemo.per.cz.bean
 {
-    class TagInfo
+    public class TagInfo
     {
         private string ant;
 
@@ -25,6 +25,13 @@ namespace WinFormDemo.per.cz.bean
         public string toJson()
         {
             return JsonUtils.ToJson(this);
+        }
+        private string tId;
+
+        public string TId
+        {
+            get { return tId; }
+            set { tId = value; }
         }
 
     }
