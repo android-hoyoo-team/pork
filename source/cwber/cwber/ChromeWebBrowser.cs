@@ -10,6 +10,7 @@ using System.Diagnostics;
 using Cef3;
 using Sashulin.common;
 using Sashulin.Core;
+using cwber;
 
 namespace Sashulin
 {
@@ -511,7 +512,37 @@ namespace Sashulin
         
         #endregion
 
+        private Dictionary<string, Bridge> bridges = new Dictionary<string, Bridge>();
+        public void SetChromeWebBrowserBridge(string key, Bridge s)
+        {
+            if (key == null || key.ToString().Length <= 0)
+            {
+                if (bridges.ContainsKey(key))
+                {
 
+                }
+                else
+                {
+                    bridges[key] = s;
+                }
+
+            }
+            else
+            {
+
+            }
+        }
+        public Bridge GetChromeWebBrowserBridge(string key)
+        {
+            if (key != null && key.ToString().Length <= 0)
+            {
+                if (bridges.ContainsKey(key))
+                {
+                    return bridges[key];
+                }
+            }
+            return null;
+        }
         #region chromewebbrowser properties
 
         public CwbDocument Document

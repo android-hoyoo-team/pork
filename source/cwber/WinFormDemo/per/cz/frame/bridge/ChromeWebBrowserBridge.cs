@@ -1,4 +1,5 @@
-﻿using per.cz.bean;
+﻿using cwber;
+using per.cz.bean;
 using per.cz.util;
 using Sashulin;
 using System;
@@ -13,19 +14,21 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Forms;
+using WinFormDemo;
 
 namespace per.cz.frame.bridge
 {
 
     [ComVisible(true)]
     // [ComVisibleAttribute(true)]
-    public class ChromeWebBrowserBridge
+    public class ChromeWebBrowserBridge:Bridge
     {
         public static Dictionary<string, string> user_infos = new Dictionary<string, string>();
         private ChromeWebBrowser chromeWebBrowser;
-        public ChromeWebBrowserBridge(ChromeWebBrowser chromeWebBrowser)
+
+        public ChromeWebBrowserBridge(Main m)
         {
-            this.chromeWebBrowser = chromeWebBrowser;
+            this.chromeWebBrowser = m.chromeWebBrowser;
             init_event();
             init();
         }

@@ -69,6 +69,6 @@
         #endregion
 
         private System.Windows.Forms.Panel main_panel;
-        private Sashulin.ChromeWebBrowser chromeWebBrowser;
+        public Sashulin.ChromeWebBrowser chromeWebBrowser;
     }
 }
