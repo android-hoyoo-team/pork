@@ -30,6 +30,7 @@ namespace WinFormDemo
         CDictionary<string, object> runtimeSettings = new CDictionary<string, object>();
         Reader reader = new Reader();
         List<TagInfo> tags = new List<TagInfo>();
+        byte[] antList = new byte[4];
         private int fCmdRet = 30;
         [DllImport("User32.dll", EntryPoint = "FindWindow")]
         private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
@@ -44,6 +45,13 @@ namespace WinFormDemo
             //Target:0, InAnt:131, Scantime:20, FastFlag:1
             InitializeComponent();
             loadAppSettings();
+            initRuntimeSettings();
+            int ants = appSettings.GetInt("ants");
+            for (int i = 0; i < 4; i++)
+            {
+                antList[i] = (byte)(ants % 10);
+                ants /= 10;
+            }
             //appSettings["fComAdr"] = 0xff;
             ////appSettings["qValue"] = 132;
             //appSettings["qValue"] = 0x82;
@@ -76,11 +84,15 @@ namespace WinFormDemo
             appSettings["psd"] = settingsReader.GetValue("psd", typeof(String));
             appSettings["maskFlag"] = settingsReader.GetValue("maskFlag", typeof(String));
             appSettings["target"] = settingsReader.GetValue("target", typeof(String));
-            appSettings["antList"] = settingsReader.GetValue("antList", typeof(String));
+            appSettings["ants"] = settingsReader.GetValue("ants", typeof(String));
             appSettings["scanTime"] = settingsReader.GetValue("scanTime", typeof(String));
             appSettings["fastFlag"] = settingsReader.GetValue("fastFlag", typeof(String));
             appSettings["qValue"] = settingsReader.GetValue("qValue", typeof(String));
             appSettings["qValue"] = settingsReader.GetValue("qValue", typeof(String));
+        }
+        public void initRuntimeSettings()
+        {
+            runtimeSettings["rwdIsConnect"] = false;
         }
         private void click(object sender, EventArgs e)
         {
@@ -288,6 +300,7 @@ namespace WinFormDemo
                 fCmdRet = reader.OpenByCom(port, ref fComAdr, Baud);
                 if (fCmdRet == 0)
                 {
+                    runtimeSettings["rwdIsConnect"] = true;
                     result.status = "success";
                     return result.toJson();
                 }
@@ -445,50 +458,17 @@ namespace WinFormDemo
                 byte[] maskData = new byte[100];
                 byte maskFlag = appSettings.GetByte("maskFlag");
                 byte readMem = appSettings.GetByte("readMem");
-                byte[] readAdr = IntegerHelper.intToBytes(appSettings.GetInt("readAdr"),2);
+                byte[] readAdr = IntegerHelper.intToBytes(appSettings.GetInt("readAdr"), 2);
                 byte readLen = appSettings.GetByte("readLen");
                 byte[] psd = IntegerHelper.intToBytes(appSettings.GetInt("psd"), 4);
                 byte target = appSettings.GetByte("target");
-                int antList = appSettings.GetInt("antList");
-                byte inAnt = 0;
-                if (antList % 10 == 1)
-                {
-                    inAnt = 0x80;
-                }
-                else if ((antList /= 10) % 10 == 1)
-                {
-                    inAnt = 0x81;
-                }
-                else if ((antList /= 100) % 10 == 1)
-                {
-                    inAnt = 0x82;
-                }
-                else if ((antList /= 1000) % 10 == 1)
-                {
-                    inAnt = 0x83;
-                }
-                else
-                {
-
-                }
                 byte scanTime = appSettings.GetByte("scanTime");
                 byte fastFlag = appSettings.GetByte("fastFlag");
-                reader.ReceiveCallback = receiveData;
-                while (runtimeSettings.GetBoolean("inventory_flag"))
-                {
-                    //self:  fComAdr:255,Qvalue:132,Session:2,MaskMem:0,MaskAdr:System.Byte[],MaskLen:0,MaskData:System.Byte[], ReadMem:2, ReadAdr:System.Byte[], ReadLen:4, Psd:System.Byte[], Target:0, InAnt:131, Scantime:20, FastFlag:1
-                    //           fComAdr:0,Qvalue:132,Session:0,MaskMem:0,MaskAdr:System.Byte[],MaskLen:0,MaskData:System.Byte[], ReadMem:2, ReadAdr:System.Byte[], ReadLen:4, Psd:System.Byte[], Target:0, InAnt:131, Scantime:20, FastFlag:1
-                    //string _psd = String.Join(",", Array.ConvertAll(psd, (Converter<byte, string>)Convert.ToString));
-                    //string _readAdr = String.Join(",", Array.ConvertAll(readAdr, (Converter<byte, string>)Convert.ToString));
-                    //Console.WriteLine("fComAdr:{0},Qvalue:{1},Session:{2},MaskMem:{3},MaskAdr:{4},MaskLen:{5},MaskData:{6}, ReadMem:{7}, ReadAdr:{8}, ReadLen:{9}, Psd:{10}, Target:{11}, InAnt:{12}, Scantime:{13}, FastFlag:{14}", fComAdr, qValue, session, maskMem, maskAdr, maskLen, maskData, readMem, _readAdr, readLen, _psd, target, inAnt, scanTime, fastFlag);
-                    fCmdRet = reader.InventoryMix_G2(ref fComAdr, qValue, session, maskMem, maskAdr, maskLen, maskData, maskFlag, readMem, readAdr, readLen, psd, target, inAnt, scanTime, fastFlag);
-                }
+                fCmdRet = reader.InventoryMix_G2(ref fComAdr, qValue, session, maskMem, maskAdr, maskLen, maskData, maskFlag, readMem, readAdr, readLen, psd, target, inAnt, scanTime, fastFlag);
             }
             catch (Exception e)
             {
-                string m = e.Message;
-                Console.WriteLine(m);
-                throw;
+                receiveData("5:" + e.ToString());
             }
         }
 
@@ -508,24 +488,60 @@ namespace WinFormDemo
                 byte lenTID = 4;
                 byte tIDFlag = appSettings.GetByte("tIDFlag");
                 byte target = appSettings.GetByte("target");
-                byte inAnt = appSettings.GetByte("inAnt");
                 byte scanTime = appSettings.GetByte("scanTime");
                 byte fastFlag = appSettings.GetByte("fastFlag");
-                reader.ReceiveCallback = receiveData;
-                while (runtimeSettings.GetBoolean("inventory_flag"))
-                    fCmdRet = reader.Inventory_G2(ref fComAdr, qValue, session, maskMem, maskAdr, maskLen, maskData, maskFlag, adrTID, lenTID, tIDFlag, target, inAnt, scanTime, fastFlag);
+         
+                fCmdRet = reader.Inventory_G2(ref fComAdr, qValue, session, maskMem, maskAdr, maskLen, maskData, maskFlag, adrTID, lenTID, tIDFlag, target, inAnt, scanTime, fastFlag);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                receiveData("5:" + e.ToString());
             }
         }
 
         public static string call_back;
         public static string error;
-        public string inventory(string jsonParam)
+        private string INVENTORY_MODE;
+        private byte inAnt;
+        public void inventory()
         {
-            Result<Object> result = new Result<object>();
+            reader.ReceiveCallback = receiveData;
+            while (runtimeSettings.GetBoolean("inventory_flag"))
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            inAnt = 0x80;
+                            break;
+                        case 1:
+                            inAnt = 0x81;
+                            break;
+                        case 2:
+                            inAnt = 0x82;
+                            break;
+                        case 3:
+                            inAnt = 0x83;
+                            break;
+                    }
+                    if (antList[i] == 1)
+                    {
+                        if (!CheckRuntimeStatus()) return;
+                        if (INVENTORY_MODE == "0")
+                        { //EPC查询
+                            flash_g2();
+                        }
+                        else { //混合查询
+                            flash_mix_g2();
+                        }
+                    }
+                }
+            }
+        }
+        public string start_inventory(string jsonParam)
+        {
+            Result<object> result = new Result<object>();
             CDictionary<string, Object> p;
             try
             {
@@ -538,15 +554,24 @@ namespace WinFormDemo
                 result.result = ex.StackTrace;
                 return result.toJson();
             }
-            call_back = null;
-            runtimeSettings["inventory_flag"] = true;
-            call_back = p.GetString("call_back");
-            error = p.GetString("error");
-            Thread thread = new Thread(flash_mix_g2);
-            thread.Start();
+            try
+            {
+                    runtimeSettings["inventory_flag"] = true;
+                    call_back = p.GetString("call_back");
+                    error = p.GetString("error");
+                    INVENTORY_MODE = p.GetString("mode");
+                    Thread thread = new Thread(inventory);
+                    thread.Start();
+                    result.status = "success";
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
             return result.toJson();
-        }
 
+        }
         public string stop_inventory(string jsonParam)
         {
             Result<object> result = new Result<object>();
@@ -604,10 +629,10 @@ namespace WinFormDemo
         private string tid;
         private void receiveData(string stemp)
         {
-            Console.WriteLine(stemp);
+            Result<object> result = new Result<object>();
+            string[] strs = stemp.Split(new Char[] { ':' });
             if (call_back != null)
             {
-                string[] strs = stemp.Split(new Char[] { ':' });
                 if (strs != null && strs.Length > 1)
                 {
                     if ("1".Equals(strs[0]))
@@ -618,12 +643,16 @@ namespace WinFormDemo
                             string ant = infos[0];
                             string epc = infos[1];
                             string count = infos[2];
-                            TagInfo tagInfo = new TagInfo();
-                            tagInfo.Ant = ant;
-                            tagInfo.Epc = epc;
-                            if (!CheckTag(tagInfo))
+                            TagInfo tag = new TagInfo();
+                            tag.Ant = ant;
+                            tag.Epc = epc;
+                            if (!CheckTag(tag))
                             {
-                                chromeWebBrowser.ExecuteScript(call_back + "(" + tagInfo.toJson() + ")");
+                                result.status = "success";
+                                result.message = "查询成功";
+                                result.result = tag;
+                                chromeWebBrowser.ExecuteScript(call_back + "(" + result.toJson() + ")");
+                                tags.Add(tag);
                             }
                             return;
                         }
@@ -634,7 +663,7 @@ namespace WinFormDemo
                         if (infos != null && infos.Length > 0)
                         {
                             int gnum = Convert.ToInt32(infos[0], 16);
-                            string ant =null;
+                            string ant = null;
                             if (gnum < 0x80)//epc
                             {
                                 epc = infos[1];
@@ -644,24 +673,36 @@ namespace WinFormDemo
                             {
                                 tid = infos[1];
                                 ant = infos[3];
-                                if (epc != null && tid != null && ant != null) {
+                                if (epc != null && tid != null && ant != null)
+                                {
                                     TagInfo tag = new TagInfo();
                                     tag.Epc = epc;
                                     tag.Ant = ant;
                                     tag.TId = tid;
-                                    if (!CheckTag(tag)) { 
-                                        
+                                    if (!CheckTag(tag))
+                                    {
+                                        result.status = "success";
+                                        result.message = "查询成功";
+                                        result.result = tag;
+                                        chromeWebBrowser.ExecuteScript(call_back + "(" + result.toJson() + ")");
+                                        tags.Add(tag);
                                     }
+                                    return;
                                 }
                             }
                         }
                     }
+
                 }
             }
             if (error != null)
             {
-                // Console.WriteLine("stemp:"+stemp);
-                chromeWebBrowser.ExecuteScript(error + "('" + stemp + "')");
+                if ("5".Equals(strs[0]))
+                {
+                    result.status = "error";
+                    result.message = strs[1];
+                    chromeWebBrowser.ExecuteScript(error + "('" + result.toJson() + "')");
+                }
             }
         }
         public string set_rwd_power(string jsonParam)
@@ -724,10 +765,18 @@ namespace WinFormDemo
             }
             return result.toJson();
         }
-        List<TagInfo> tagInfos = new List<TagInfo>();
         public bool CheckTag(TagInfo tag)
         {
-            return tagInfos.Any(p => p.Epc == tag.Epc);
+            return tags.Any(p => p.Epc == tag.Epc);
+        }
+        public bool CheckRuntimeStatus() {
+            string message = null;
+            bool status = true;
+            if (!runtimeSettings.GetBoolean("rwdIsConnect")) { message = "读写器未连接"; status = false; }
+            if (!status) { 
+                    receiveData("5:"+message);
+            }
+            return status;
         }
     }
 }

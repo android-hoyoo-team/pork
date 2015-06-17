@@ -45,7 +45,7 @@ var bridge_reader = {
             }
         }
     },
-    inventory: function (param) {
+    start_inventory: function (param) {
         if (use_bridge_tag) {
             if (param.call_back && typeof param.call_back == 'function') {
                 this.ajax_callbacks["_callback" + this.ajax_callbacks.index] = param.call_back;
@@ -61,7 +61,7 @@ var bridge_reader = {
                 param.error = "bridge_reader.ajax_errors._error" + this.ajax_errors.index;
                 this.ajax_errors.index++;
             }
-            var res = window.CallCSharpMethod("inventory", JSON.stringify(param));
+            var res = window.CallCSharpMethod("start_inventory", JSON.stringify(param));
             if (res) {
                 return JSON.parse(res);
             }
