@@ -6,6 +6,7 @@ using System.Reflection;
 using Cef3;
 using Sashulin.common;
 using Sashulin.Core;
+using cwber;
 namespace Sashulin
 {
     internal class Global
@@ -30,9 +31,19 @@ namespace Sashulin
                 if (c == null) continue;
                 if (c.browser.Identifier == browser.Identifier)
                 {
-                    t = c.FindForm().GetType();
-                    form = c.FindForm();
-                    break;
+                    if (methodName.IndexOf(".") > 0)
+                    {
+                        String key = methodName.Substring(0, methodName.IndexOf("."));
+                        Bridge brigde = c.GetChromeWebBrowserBridge(key);
+                        t = brigde.GetType();
+                        form = brigde;
+                    }
+                    else {
+                        t = c.FindForm().GetType();
+                        form = c.FindForm();
+                        break;
+                    }
+
                 }
             }
 
