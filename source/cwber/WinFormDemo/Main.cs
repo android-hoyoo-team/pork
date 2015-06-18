@@ -62,7 +62,7 @@ namespace WinFormDemo
         private void Main_Load(object sender, EventArgs e)
         {
             this.Click += new System.EventHandler(this.click);
-            chromeWebBrowser.SetChromeWebBrowserBridge("bridge1",new ChromeWebBrowserBridge(this));
+            chromeWebBrowser.SetChromeWebBrowserBridge("chrome_web_browser_bridge", new ChromeWebBrowserBridge(this));
 
         }
         public void loadAppSettings()
