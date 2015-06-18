@@ -35,8 +35,13 @@ namespace Sashulin
                     {
                         String key = methodName.Substring(0, methodName.IndexOf("."));
                         Bridge brigde = c.GetChromeWebBrowserBridge(key);
-                        t = brigde.GetType();
-                        form = brigde;
+                        if (brigde != null)
+                        { 
+                             t = brigde.GetType();
+                             form = brigde;
+                             methodName = methodName.Substring(methodName.IndexOf(".")+1);
+                             break;
+                        }
                     }
                     else {
                         t = c.FindForm().GetType();

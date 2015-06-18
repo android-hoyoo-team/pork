@@ -8,7 +8,7 @@ namespace per.cz.bean
 {
     public class Result<T>
     {
-        public Object status = "-1";
+        public object status = "-1";
         public string message;
         public T result;
         // public Dictionary<string, string> header;

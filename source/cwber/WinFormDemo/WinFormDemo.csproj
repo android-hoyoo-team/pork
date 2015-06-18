@@ -109,6 +109,7 @@
     <Compile Include="per\cz\util\JsonUtils.cs" />
     <Compile Include="per\cz\util\OrderUtil.cs" />
     <Compile Include="per\cz\util\Program.cs" />
+    <Compile Include="per\cz\util\DateUtils.cs" />
     <Compile Include="per\cz\util\Utils.cs" />
     <Compile Include="per\cz\wpfFrame\bridge\Bridge.cs" />
     <Compile Include="per\cz\wpfFrame\bridge\DoTask.cs" />

@@ -21,3 +21,10 @@ E:\Git\zhurou\source\cwber\cwber\obj\Debug\Sashulin.ChromeWebBrowser.resources
 E:\Git\zhurou\source\cwber\cwber\obj\Debug\cwber.csproj.GenerateResource.Cache
 E:\Git\zhurou\source\cwber\cwber\obj\Debug\cwber.dll
 E:\Git\zhurou\source\cwber\cwber\obj\Debug\cwber.pdb
+D:\_git_repository\zhurou\pork\source\cwber\WinFormDemo\assets\output\cwber.dll
+D:\_git_repository\zhurou\pork\source\cwber\WinFormDemo\assets\output\cwber.pdb
+D:\_git_repository\zhurou\pork\source\cwber\cwber\obj\Debug\cwber.csprojResolveAssemblyReference.cache
+D:\_git_repository\zhurou\pork\source\cwber\cwber\obj\Debug\Sashulin.ChromeWebBrowser.resources
+D:\_git_repository\zhurou\pork\source\cwber\cwber\obj\Debug\cwber.csproj.GenerateResource.Cache
+D:\_git_repository\zhurou\pork\source\cwber\cwber\obj\Debug\cwber.dll
+D:\_git_repository\zhurou\pork\source\cwber\cwber\obj\Debug\cwber.pdb

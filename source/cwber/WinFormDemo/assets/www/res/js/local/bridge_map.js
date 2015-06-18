@@ -217,6 +217,81 @@ var bridge_map = {
         }
 
     },
+    findCardByEpc: function (param) {
+        if (use_bridge_tag) {
+            var res = window.CallCSharpMethod("chrome_web_browser_bridge.findCardByEpc", JSON.stringify(param));
+            //var res= window.external.open_filed_dialog(JSON.stringify(param));
+            if (res) {
+                return JSON.parse(res)
+            }
+        }
+
+    },
+    saveCard: function (param) {
+        if (use_bridge_tag) {
+            var res = window.CallCSharpMethod("chrome_web_browser_bridge.saveCard", JSON.stringify(param));
+            //var res= window.external.open_filed_dialog(JSON.stringify(param));
+            if (res) {
+                return JSON.parse(res)
+            }
+        }
+
+    },
+    //{
+    //key:字段名称
+    //value:字段值
+    //}
+    delCardByXX: function (param) {
+        if (use_bridge_tag) {
+            var res = window.CallCSharpMethod("chrome_web_browser_bridge.delCardByXX", JSON.stringify(param));
+            //var res= window.external.open_filed_dialog(JSON.stringify(param));
+            if (res) {
+                return JSON.parse(res)
+            }
+        }
+
+    },
+    /**
+    如果为空的话表示查询所有
+    {epc:xxx,tid:xxx,......}
+    **/
+    findCardByParams: function (param) {
+        if (use_bridge_tag) {
+            if (!param)
+                param = {};
+            var res = window.CallCSharpMethod("chrome_web_browser_bridge.findCardByParams", JSON.stringify(param));
+            //var res= window.external.open_filed_dialog(JSON.stringify(param));
+            if (res) {
+                return JSON.parse(res)
+            }
+        }
+    },
+    updateCardByParams: function (old,_new) {
+        if (use_bridge_tag) {
+            if (!old)
+            {
+                old = {};
+            }
+            if (!_new) {
+                _new = {};
+            }
+            var res = window.CallCSharpMethod("chrome_web_browser_bridge.updateCardByParams", JSON.stringify(old), JSON.stringify(_new));
+            //var res= window.external.open_filed_dialog(JSON.stringify(param));
+            if (res) {
+                return JSON.parse(res)
+            }
+        }
+    },
+    test_chrome_web_browser_bridge: function (param) {
+        if (use_bridge_tag) {
+            var res = window.CallCSharpMethod("chrome_web_browser_bridge.test", JSON.stringify(param));
+            //var res= window.external.open_filed_dialog(JSON.stringify(param));
+            if (res) {
+                return JSON.parse(res)
+            }
+        }
+
+    },
     close: function () {
         window.external.close();
     },

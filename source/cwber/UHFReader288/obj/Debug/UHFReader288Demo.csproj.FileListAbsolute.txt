@@ -10,3 +10,15 @@ E:\Git\zhurou\source\cwber\UHFReader288\obj\Debug\UHFReader288Demo.pdb
 E:\Git\zhurou\source\cwber\UHFReader288\bin\Debug\UHFReader288Demo.dll.config
 E:\Git\zhurou\source\cwber\UHFReader288\bin\Debug\UHFReader288Demo.dll
 E:\Git\zhurou\source\cwber\UHFReader288\obj\Debug\UHFReader288Demo.dll
+D:\_git_repository\zhurou\pork\source\cwber\UHFReader288\bin\Debug\UHFReader288Demo.dll.config
+D:\_git_repository\zhurou\pork\source\cwber\UHFReader288\bin\Debug\UHFReader288Demo.dll
+D:\_git_repository\zhurou\pork\source\cwber\UHFReader288\bin\Debug\UHFReader288Demo.pdb
+D:\_git_repository\zhurou\pork\source\cwber\UHFReader288\bin\Debug\CustomControl.dll
+D:\_git_repository\zhurou\pork\source\cwber\UHFReader288\obj\Debug\UHFReader288Demo.csprojResolveAssemblyReference.cache
+D:\_git_repository\zhurou\pork\source\cwber\UHFReader288\obj\Debug\UHFReader288Demo.ConfigForm.resources
+D:\_git_repository\zhurou\pork\source\cwber\UHFReader288\obj\Debug\UHFReader288Demo.Form1.resources
+D:\_git_repository\zhurou\pork\source\cwber\UHFReader288\obj\Debug\UHFReader288Demo.LoginForm.resources
+D:\_git_repository\zhurou\pork\source\cwber\UHFReader288\obj\Debug\UHFReader288Demo.Properties.Resources.resources
+D:\_git_repository\zhurou\pork\source\cwber\UHFReader288\obj\Debug\UHFReader288Demo.csproj.GenerateResource.Cache
+D:\_git_repository\zhurou\pork\source\cwber\UHFReader288\obj\Debug\UHFReader288Demo.dll
+D:\_git_repository\zhurou\pork\source\cwber\UHFReader288\obj\Debug\UHFReader288Demo.pdb
