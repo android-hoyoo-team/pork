@@ -764,6 +764,7 @@ namespace WinFormDemo
                 result.result = ex.StackTrace;
                 return result.toJson();
             }
+            //reader.WriteData_G2()
             return result.toJson();
         }
         public bool CheckTag(TagInfo tag)
