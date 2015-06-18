@@ -18,3 +18,9 @@ E:\Git\zhurou\source\cwber\WinFormDemo\assets\output\Cef3.pdb
 E:\Git\zhurou\source\cwber\Cef3\obj\Debug\Cef3.csprojResolveAssemblyReference.cache
 E:\Git\zhurou\source\cwber\Cef3\obj\Debug\Cef3.dll
 E:\Git\zhurou\source\cwber\Cef3\obj\Debug\Cef3.pdb
+D:\_git_repository\zhurou\pork\source\cwber\WinFormDemo\assets\output\Cef3.xml
+D:\_git_repository\zhurou\pork\source\cwber\WinFormDemo\assets\output\Cef3.dll
+D:\_git_repository\zhurou\pork\source\cwber\WinFormDemo\assets\output\Cef3.pdb
+D:\_git_repository\zhurou\pork\source\cwber\Cef3\obj\Debug\Cef3.csprojResolveAssemblyReference.cache
+D:\_git_repository\zhurou\pork\source\cwber\Cef3\obj\Debug\Cef3.dll
+D:\_git_repository\zhurou\pork\source\cwber\Cef3\obj\Debug\Cef3.pdb

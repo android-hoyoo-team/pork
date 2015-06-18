@@ -1,99 +1,123 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>风怡科技</title>
-<meta name="renderer" content="ie-comp">
-<meta http-equiv="X-UA-Compatible" content="IE=10" >
-<script src="../lib/local/base_server.js" type="text/javascript"></script>
-<script src="../lib/local/service_api.js" type="text/javascript"></script>
-<script src="../lib/local/bridge_map.js" type="text/javascript"></script>
-<script src="jquery-1.4.3.js" type="text/javascript"></script>
-<link rel="stylesheet" type="text/css" href="login.css" />
-<script type="text/javascript">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>风怡科技</title>
+    <meta name="renderer" content="ie-comp">
+    <meta http-equiv="X-UA-Compatible" content="IE=10">
+    <link rel="stylesheet" type="text/css" href="login.css" />
+    <script src="../../res/js/load.js"></script>
+    <script type="text/javascript">
 
-		window.onload = function(){
-		  var bodyh = document.documentElement.clientHeight;
-		  document.getElementById("login_center_div").style.height = (parseInt(bodyh) - 148) + 'px';
-		};
+        loadJsCssFileRelToLoadJs("../css/login/login.css");
+        loadJsCssFileRelToLoadJs("local/base_server.js");
+        loadJsCssFileRelToLoadJs("local/service_api.js");
+        //alert(bridge_map.test().epc);
 
+    </script>
+    <script type="text/javascript">
 
-      document.onkeydown=keyListener;   
-		function keyListener(e){   
-		    e = e ? e : event;  
-		    if(e.keyCode == 13){
-		    	onSubmit();   
-		    }   
-		}  
+        window.onload = function () {
+        };
+        function a1() {
+            var res = bridge_map.folder_browser_dialog({ default_file_path: "c:\\" });
+            alert(JSON.stringify(res));
+        }
+        function a2() {
+            var res = bridge_map.open_file_dialog({ default_file_path: "c:\\", f: 1 });
+            alert(JSON.stringify(res));
+            if (res && res.result) {
+                var size = bridge_map.get_file_size(res.result);
+                alert(JSON.stringify(size));
+            }
+        }
+        function a3() {
+            var res = bridge_map.get_system_parameters({});
+            alert(JSON.stringify(res));
+        }
+        function a31() {
+            var res = bridge_map.findCardByEpc({ epc: '1' });
+            alert(JSON.stringify(res));
+        }
+        function a32() {
+            var res = bridge_map.saveCard({ epc: '2' });
+            alert(JSON.stringify(res));
+        }
+        function a33() {
+            var res = bridge_map.delCardByXX({ key: 'epc',value:"1" });
+            alert(JSON.stringify(res));
+        }
+        function a34() {
+            var res = bridge_map.findCardByParams();
+            alert(JSON.stringify(res));
+        }
+        function a35() {
+            console.info(new Date(1434499064564));
+            var res = bridge_map.updateCardByParams({tid:'2'}, {uid:'xxxx'});
+            alert(JSON.stringify(res));
+        }
+        function a4() {
+            var res = bridge_reader.open_by_com({ port: 1, fComAdr: 255, Baud: 3 });
+            alert(JSON.stringify(res));
+        }
+        function a5() {
+            var res = bridge_reader.close_by_com();
+            alert(JSON.stringify(res));
+        }
+        function a6() {
+            var res = bridge_reader.beep_setting({ beepEn: 1 });
+            alert(JSON.stringify(res));
+        }
+        function a7() {
+            var res = bridge_reader.beep_setting({ beepEn: 0 });
+            alert(JSON.stringify(res));
+        }
+        function a8() {
+            var res = bridge_reader.inventory({
+                call_back: function (tag) {
 
-	$(function(){		
-		$("#username").focus(function() {
-			$(".login_prompt").text("");
-		});
-		
-		$("#username").blur(function() {
-			var username=$('#username').val();
-			if(username == "")
-				$(".login_prompt").text("please input the username");
-		});
-		
-		$("#password").focus(function() {
-			$(".login_prompt").text("");
-		});
-		
-		$("#password").blur(function() {
-			var password=$('#password').val();
-			if(password == "")
-				$(".login_prompt").text("please input the Password");
-		});
-		
-	});
-	
-	function onSubmit(){
-		//var remeber_me = "false";
- 		var username=$('#username').val();
-		var password=$('#password').val();
-		//if(document.getElementById("login_remember_checkbox").checked){
-		//	remeber_me = $("#login_remember_checkbox").val();
-		//}
-		username=encodeURIComponent(username);
-		password=encodeURIComponent(password);
-		if(username!=''&&password!=''){
-			$.ajax({
-				type : 'GET',
-				url : erp_api_service.EntUser[0] + "?callback=?&login_name__exact="
-						+ username + "&login_pass__exact=" + password,
-				dataType : 'json',
-				cache : false,
-				async : true,
-				success : function(data) {
-					if (data && data.objects) {
-						var res = data.objects;
-						if (res.length == 1) {
-							//$(set_menu_data(res[0].menu_access));
-							bridge_map.save_user_info("user_name",username);
-							bridge_map.save_user_info("user_password",password);
-							bridge_map.save_user_info("user_all_info",res[0].menu_access);
-							//bridge_map.get_user_info
-							window.location="../layout/index.html";
-						} else {
-						$('.login_prompt').text("用户名或密码错误。");
-						}
-					} else {
-						$('.login_prompt').text("用户名或密码错误。");
-					}
-				},
-				error : function(XMLHttpRequest) {
-					$('.login_prompt').text("系统错误,请关闭后重新启动。");
-				}
-			});
-		}else{
-			$('.login_prompt').text("请输入用户名和密码");
-		}
-		
-	}
-</script>
+                },
+                error: function () {
+                    console.info(arguments);
+                }
+            });
+            alert(JSON.stringify(res));
+        }
+        function a9() {
+            var res = bridge_reader.get_rwd_serial_no();
+            alert(JSON.stringify(res));
+        }
+        function a10() {
+            var power = $("#power").val();
+            var res = bridge_reader.set_rwd_power({ power: power });
+        }
+        function a11() {
+            var res = bridge_reader.stop_inventory({});
+        }
+    </script>
 </head>
-<body >
+<body>
+    <input type='button' value="获取文件夹" onclick='a1()' />
+    <input type='button' value="获取文件并获取文件大小" onclick='a2()' />
+    <input type='button' value="获取系统参数" onclick='a3()' />
+    <input type='button' value="findCardByEpc" onclick='a31()' />
+    <input type='button' value="saveCard" onclick='a32()' />
+    <input type='button' value="delCardByXX" onclick='a33()' />
+    <input type='button' value="findCardByParams" onclick='a34()' />
+    <input type='button' value="updateCardByParams" onclick='a35()' />
+    <input type='button' value="打开读写器" onclick='a4()' />
+    <input type='button' value="关闭读写器" onclick='a5()' />
+    <input type='button' value="开启蜂鸣器" onclick="a6()" />
+    <input type='button' value="关闭蜂鸣器" onclick="a7()" />
+    <input type='button' value="开始询查" onclick="a8()" />
+    <input type='button' value="停止询查" onclick="a11()" /><p>
+        <input type='button' value="获取读写器序列号" onclick="a9()" />
+        读写器功率：<select id="power" name="dept" style="width:100px;" onchange="a10()">
+            <option value="0">0dbm</option>
+            <option value="10">10dbm</option>
+            <option value="20">20dbm</option>
+            <option value="30">30dbm</option>
+        </select>
+
 </body>
 </html>

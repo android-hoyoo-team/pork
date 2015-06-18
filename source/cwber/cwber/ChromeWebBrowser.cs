@@ -515,7 +515,7 @@ namespace Sashulin
         private Dictionary<string, Bridge> bridges = new Dictionary<string, Bridge>();
         public void SetChromeWebBrowserBridge(string key, Bridge s)
         {
-            if (key == null || key.ToString().Length <= 0)
+            if (key != null && key.ToString().Trim().Length > 0)
             {
                 if (bridges.ContainsKey(key))
                 {
@@ -534,7 +534,7 @@ namespace Sashulin
         }
         public Bridge GetChromeWebBrowserBridge(string key)
         {
-            if (key != null && key.ToString().Length <= 0)
+            if (key != null && key.ToString().Trim().Length >0)
             {
                 if (bridges.ContainsKey(key))
                 {
