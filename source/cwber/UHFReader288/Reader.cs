@@ -5114,6 +5114,8 @@ namespace UHFReaderModule
                                 byte[] MaskData, byte MaskFlag, byte ReadMem, byte[] ReadAdr, byte ReadLen, byte[]Psd,byte Target, byte InAnt,
                                 byte Scantime, byte FastFlag)
         {
+            try
+            {
             SendBuff[1] = ComAdr;
             SendBuff[2] = 0x19;
             SendBuff[3] = QValue;
@@ -5178,6 +5180,12 @@ namespace UHFReaderModule
             else
             {
                 return GetInventoryMixG1();
+            }
+            }
+            catch (Exception e)
+            {
+                ReceiveCallback("5:"+e.ToString());
+                return 0x80;
             }
         }
         #endregion

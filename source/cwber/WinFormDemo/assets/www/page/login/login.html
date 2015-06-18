@@ -52,12 +52,13 @@
             alert(JSON.stringify(res));
         }
         function a8() {
-            var res = bridge_reader.inventory({
+            var res = bridge_reader.start_inventory({
+                mode:1,
                 call_back: function (tag) {
-
+                    console.info(tag.result);
                 },
-                error: function () {
-                    console.info(arguments);
+                error: function (s) {
+                    console.info(s);
                 }
             });
             alert(JSON.stringify(res));
